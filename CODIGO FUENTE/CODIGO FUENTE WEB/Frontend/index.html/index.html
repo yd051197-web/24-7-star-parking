@@ -1,59 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>24/7 Star Parking</title>
-
-    <!-- Conexión archivo CSS -->
+    <title>24/7 Star Parking - Premium</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
+    <h1>🚗 24/7 Star Parking</h1>
+    <p class="subtitle">Sistema Inteligente de Gestión y Reservas en Línea</p>
 
-    <!-- Título principal sistema -->
-    <h1>24/7 Star Parking</h1>
+    <div class="container">
+        <div class="card">
+            <h2>Estacionamiento en Vivo (Entradas/Salidas)</h2>
+            <div class="seccion">
+                <h3>Registrar Entrada</h3>
+                <input type="text" id="placa" placeholder="Ingrese placa (ej. ABC123)">
+                <select id="tipo">
+                    <option>Automóvil</option>
+                    <option>Moto</option>
+                    <option>Camioneta</option>
+                </select>
+                <button onclick="registrarVehiculo()">Registrar Entrada</button>
+            </div>
+            
+            <div class="seccion">
+                <h3>Registrar Salida</h3>
+                <input type="text" id="placaSalida" placeholder="Ingrese placa del vehículo">
+                <button onclick="registrarSalida()" class="btn-salida">Calcular y Registrar Salida</button>
+            </div>
+        </div>
 
-    <!-- Descripción sistema -->
-    <p>Sistema inteligente de gestión de parqueadero</p>
+        <div class="card">
+            <h2>📅 Reserva de Espacio Anticipado</h2>
+            <input type="text" id="nombreReserva" placeholder="Nombre del cliente">
+            <input type="text" id="placaReserva" placeholder="Placa del vehículo">
+            <select id="espacioReserva">
+                <option value="A1">Zona A - Espacio A1 (Cubierto)</option>
+                <option value="A2">Zona A - Espacio A2 (Cubierto)</option>
+                <option value="B1">Zona B - Espacio B1 (Motos)</option>
+                <option value="B2">Zona B - Espacio B2 (Motos)</option>
+            </select>
+            <button onclick="crearReserva()" class="btn-reserva">Reservar y Pagar en Línea 💳</button>
+        </div>
+    </div>
 
-    <!-- Formulario registro vehículos -->
-    <form>
+    <div class="card mapa-card">
+        <h2>📍 Nuestra Ubicación Principal</h2>
+        <p><strong>Dirección:</strong> Calle 25 #19-30, Urrao, Antioquia, Colombia</p>
+        <div class="mapa-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.6346261545625!2d-76.1378!3d6.3142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e46995669c1a017%3A0x6b63fdf39f37ff7b!2sUrrao%2C%20Antioquia!5e0!3m2!1ses!2sco!4v1710000000000!5m2!1ses!2sco" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
 
-        <!-- Campo placa -->
-        <label>Placa vehículo</label>
-        <input type="text" placeholder="Ingrese placa">
+    <div class="card">
+        <h2>📊 Monitor del Sistema y Facturación</h2>
+        <div id="resultado"></div>
+    </div>
 
-        <br><br>
-
-        <!-- Campo tipo vehículo -->
-        <label>Tipo vehículo</label>
-
-        <select>
-
-            <option>Automóvil</option>
-            <option>Moto</option>
-            <option>Camioneta</option>
-
-        </select>
-
-        <br><br>
-
-        <!-- Botón registro -->
-        <button type="submit">
-
-            Registrar Vehículo
-
-        </button>
-
-    </form>
-
-    <!-- Conexión archivo JavaScript -->
     <script src="app.js"></script>
-
 </body>
-
 </html>
