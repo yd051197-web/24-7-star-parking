@@ -1,8 +1,9 @@
-package repository;
+package CODIGO_FUENTE.Backend.repository;
 
-// Repositorio encargado del acceso
-// a datos de vehículos
+import org.springframework.stereotype.Repository;
 
+// Repositorio encargado del acceso a datos con Spring Boot
+@Repository
 public interface VehiculoRepository {
 
 }

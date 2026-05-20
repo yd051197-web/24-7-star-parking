@@ -1,24 +1,16 @@
-package service;
+package CODIGO_FUENTE.Backend.service;
 
-// Servicio encargado de la lógica de negocio
-// del módulo de vehículos
+import org.springframework.stereotype.Service;
 
+// Servicio encargado de la lógica de negocio con Spring Boot
+@Service
 public class VehiculoService {
 
-    // Método validar vehículo
     public void validarVehiculo(){
-
-        // Validación simulada
-        System.out.println("Vehículo validado");
-
+        System.out.println("Vehículo validado en Spring Boot");
     }
 
-    // Método calcular tiempo parqueo
     public void calcularTiempo(){
-
-        // Simulación cálculo
         System.out.println("Tiempo calculado");
-
     }
-
 }

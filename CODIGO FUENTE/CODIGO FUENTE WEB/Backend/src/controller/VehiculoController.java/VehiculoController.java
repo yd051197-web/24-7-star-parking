@@ -1,22 +1,21 @@
-// Controlador encargado de gestionar
-// las peticiones relacionadas con vehículos
+package CODIGO_FUENTE.Backend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import CODIGO_FUENTE.Backend.service.VehiculoService;
+
+// Version backend vehículos con Spring Boot
+@RestController
+@RequestMapping("/api/vehiculos")
 public class VehiculoController {
 
-    // Método encargado del registro de vehículos
-    public void registrarVehiculo(){
+    @Autowired
+    private VehiculoService vehiculoService;
 
-        // Simulación registro vehículo
-        System.out.println("Vehículo registrado correctamente");
-
+    @PostMapping("/validar")
+    public void registrarVehiculo() {
+        vehiculoService.validarVehiculo();
     }
-
-    // Método encargado de registrar salida
-    public void registrarSalida(){
-
-        // Simulación salida vehículo
-        System.out.println("Salida registrada");
-
-    }
-
 }
