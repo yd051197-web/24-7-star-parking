@@ -1,8 +1,7 @@
-package CODIGO_FUENTE.Backend.service;
+package service;
 
 import org.springframework.stereotype.Service;
 
-// Servicio encargado de la lógica de negocio con Spring Boot
 @Service
 public class VehiculoService {
 
