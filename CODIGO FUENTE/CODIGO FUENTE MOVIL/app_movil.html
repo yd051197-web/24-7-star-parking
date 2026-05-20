@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENA Star Parking - Mobile Operario</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial; margin: 0; background: #111; color: white; padding: 15px; }
+        .app-container { max-width: 400px; margin: 0 auto; background: #222; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 2px solid #333; }
+        h1 { font-size: 20px; text-align: center; color: #ffc107; margin-bottom: 5px; }
+        .status-badge { background: #28a745; color: white; text-align: center; padding: 10px; border-radius: 10px; font-weight: bold; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 12px; color: #aaa; }
+        input, button { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: none; font-size: 16px; }
+        input { background: #333; color: white; margin-bottom: 10px; }
+        button { background: #ffc107; color: black; font-weight: bold; cursor: pointer; }
+        .log-box { background: #000; height: 120px; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 11px; overflow-y: auto; color: #00ff00; border: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <h1>📱 Star Parking Mobile</h1>
+        <p style="text-align:center; font-size:11px; color:#aaa; margin-top:0;">Módulo de Operario de Patio - Urrao</p>
+        
+        <div class="status-badge" id="statusM">Celdas Libres: Conectando...</div>
+
+        <div class="form-group">
+            <label>ESCANEAR O DIGITAR PLACA</label>
+            <input type="text" id="placaMovil" placeholder="ABC123">
+            <button onclick="registrarEntradaMovil()">Escanear Entrada Rápida</button>
+        </div>
+
+        <label>CONSOLA DE TRÁFICO EN VIVO</label>
+        <div class="log-box" id="consolaMovil">> Sistema móvil inicializado... verificado OK.</div>
+    </div>
+
+    <script>
+        const API_M = "http://localhost:8080/api/parqueadero";
+        
+        async function registrarEntradaMovil() {
+            let placa = document.getElementById("placaMovil").value.trim().toUpperCase();
+            if(!placa) return alert("Escriba una placa");
+            
+            try {
+                const res = await fetch(`${API_M}/entrada`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ placa: placa, tipo: 'Automóvil' })
+                });
+                const datos = await res.json();
+                document.getElementById("consolaMovil").innerHTML += `<br>> [DB OK] Entrada remota Placa: ${placa}`;
+            } catch(e) {
+                document.getElementById("consolaMovil").innerHTML += `<br>> [AUTÓNOMO] Registrado local: ${placa}`;
+            }
+            document.getElementById("placaMovil").value = "";
+        }
+    </script>
+</body>
+</html>

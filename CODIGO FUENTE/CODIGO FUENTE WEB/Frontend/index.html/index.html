@@ -2,12 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>24/7 Star Parking - Premium</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 Star Parking - Sistema Integrado</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 30px; background-color: #eef2f7; color: #333; }
+        h1 { color: #003366; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .container { display: flex; gap: 20px; flex-wrap: wrap; }
+        .card { background-color: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex: 1; min-width: 300px; margin-bottom: 20px; box-sizing: border-box; }
+        .seccion { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        h2 { color: #003366; margin-top: 0; border-left: 5px solid #003366; padding-left: 10px; }
+        input, select { padding: 12px; width: 95%; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        button { padding: 12px 20px; background-color: #003366; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.3s; }
+        button:hover { background-color: #002244; }
+        .btn-salida { background-color: #28a745; }
+        .btn-salida:hover { background-color: #218838; }
+        .btn-reserva { background-color: #ffc107; color: #212529; }
+        .btn-reserva:hover { background-color: #e0a800; }
+        #resultado { background-color: #f8f9fa; padding: 15px; border-radius: 8px; min-height: 50px; border-left: 5px solid #28a745; font-family: monospace; white-space: pre-line; }
+        .mapa-container { margin-top: 15px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .ticket { background: #fff; border: 1px dashed #666; padding: 15px; margin-top: 10px; border-radius: 4px; }
+    </style>
 </head>
 <body>
+
     <h1>🚗 24/7 Star Parking</h1>
-    <p class="subtitle">Sistema Inteligente de Gestión y Reservas en Línea</p>
+    <p class="subtitle">Sistema de Control Operativo y Facturación - Sede Urrao</p>
+
+    <div class="card" style="max-width: 600px; margin: 0 auto 20px auto;">
+        <h2>📊 Monitor de Celdas Disponibles</h2>
+        <div id="monitorCeldas" style="padding: 15px; background: #d4edda; color: #155724; border-radius: 8px; font-weight: bold; text-align: center;">
+            🟢 SISTEMA ACTIVO | Celdas Disponibles: <span id="cuposDisponibles">20</span> de 20
+        </div>
+    </div>
 
     <div class="container">
         <div class="card">
@@ -20,13 +47,13 @@
                     <option>Moto</option>
                     <option>Camioneta</option>
                 </select>
-                <button onclick="registrarVehiculo()">Registrar Entrada</button>
+                <button onclick="ejecutarEntradaWeb()">Registrar Entrada</button>
             </div>
             
             <div class="seccion">
                 <h3>Registrar Salida</h3>
                 <input type="text" id="placaSalida" placeholder="Ingrese placa del vehículo">
-                <button onclick="registrarSalida()" class="btn-salida">Calcular y Registrar Salida</button>
+                <button onclick="ejecutarSalidaWeb()" class="btn-salida">Calcular y Registrar Salida</button>
             </div>
         </div>
 
@@ -40,23 +67,111 @@
                 <option value="B1">Zona B - Espacio B1 (Motos)</option>
                 <option value="B2">Zona B - Espacio B2 (Motos)</option>
             </select>
-            <button onclick="crearReserva()" class="btn-reserva">Reservar y Pagar en Línea 💳</button>
-        </div>
-    </div>
-
-    <div class="card mapa-card">
-        <h2>📍 Nuestra Ubicación Principal</h2>
-        <p><strong>Dirección:</strong> Calle 25 #19-30, Urrao, Antioquia, Colombia</p>
-        <div class="mapa-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.6346261545625!2d-76.1378!3d6.3142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e46995669c1a017%3A0x6b63fdf39f37ff7b!2sUrrao%2C%20Antioquia!5e0!3m2!1ses!2sco!4v1710000000000!5m2!1ses!2sco" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <button onclick="ejecutarReservaWeb()" class="btn-reserva">Reservar y Pagar en Línea 💳</button>
         </div>
     </div>
 
     <div class="card">
-        <h2>📊 Monitor del Sistema y Facturación</h2>
-        <div id="resultado"></div>
+        <h2>📍 Nuestra Ubicación Principal</h2>
+        <p><strong>Dirección:</strong> Calle 25 #19-30, Urrao, Antioquia, Colombia</p>
+        <div class="mapa-container">
+            <iframe src="https://maps.google.com/maps?q=Urrao,%20Antioquia&t=&z=15&ie=UTF-8&iwloc=&output=embed" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="card">
+        <h2>🧾 Historial de Procesos y Facturación</h2>
+        <div id="resultado">
+            <p style="color: gray; margin: 0;">Esperando transacciones de operador...</p>
+        </div>
+    </div>
+
+    <script>
+        let dbVehiculos = [];
+        const CAPACIDAD_MAXIMA = 20;
+
+        function actualizarLetrero() {
+            let libres = CAPACIDAD_MAXIMA - dbVehiculos.length;
+            document.getElementById("cuposDisponibles").innerText = libres;
+        }
+
+        function ejecutarEntradaWeb() {
+            let pInput = document.getElementById("placa");
+            let placa = pInput.value.trim().toUpperCase();
+            let tipo = document.getElementById("tipo").value;
+            let tiempoAhora = new Date();
+
+            if(!placa) { alert("Por favor escribe una placa."); return; }
+            if(dbVehiculos.length >= CAPACIDAD_MAXIMA) { alert("Parqueadero lleno."); return; }
+
+            dbVehiculos.push({ placa: placa, tipo: tipo, ingreso: tiempoAhora });
+
+            let panel = document.getElementById("resultado");
+            if(panel.innerHTML.includes("Esperando transacciones")) panel.innerHTML = "";
+            
+            panel.innerHTML += `<p style="color: green; margin: 5px 0; font-weight: bold;">✔️ [REGISTRO] Entrada de ${placa} (${tipo}) confirmada a las ${tiempoAhora.toLocaleTimeString()}</p>`;
+            
+            pInput.value = "";
+            actualizarLetrero();
+        }
+
+        function ejecutarSalidaWeb() {
+            let sInput = document.getElementById("placaSalida");
+            let placaBusqueda = sInput.value.trim().toUpperCase();
+
+            if(!placaBusqueda) { alert("Escribe la placa a retirar."); return; }
+
+            let vehiculo = dbVehiculos.find(v => v.placa === placaBusqueda);
+
+            if(vehiculo) {
+                let salidaTiempo = new Date();
+                let calculoMinutos = Math.ceil((salidaTiempo - vehiculo.ingreso) / 60000);
+                if(calculoMinutos <= 0) calculoMinutos = 1; 
+                
+                let tarifa = 100;
+                let totalAPagar = calculoMinutos * tarifa;
+
+                let panel = document.getElementById("resultado");
+                if(panel.innerHTML.includes("Esperando transacciones")) panel.innerHTML = "";
+
+                panel.innerHTML += `
+                    <div class="ticket">
+                        <h3 style="margin: 0 0 5px 0; color: #d9534f;">🧾 FACTURA DE VENTA N° RE-${Math.floor(Math.random()*10000)}</h3>
+                        <p style="margin: 3px 0;"><strong>Vehículo:</strong> ${vehiculo.placa} | <strong>Tipo:</strong> ${vehiculo.tipo}</p>
+                        <p style="margin: 3px 0;"><strong>Tiempo transcurrido:</strong> ${calculoMinutos} Minuto(s)</p>
+                        <p style="margin: 3px 0; font-size: 16px; color: #d9534f; font-weight: bold;"><strong>TOTAL LIQUIDADO:</strong> $${totalAPagar} COP</p>
+                    </div>
+                `;
+
+                dbVehiculos = dbVehiculos.filter(v => v.placa !== placaBusqueda);
+                sInput.value = "";
+                actualizarLetrero();
+            } else {
+                alert("El vehículo con la placa ingresada no está registrado en el parqueadero.");
+            }
+        }
+
+        function ejecutarReservaWeb() {
+            let nombre = document.getElementById("nombreReserva").value.trim();
+            let placa = document.getElementById("placaReserva").value.trim().toUpperCase();
+            let celda = document.getElementById("espacioReserva").value;
+
+            if(!nombre || !placa) { alert("Diligencie los campos de reserva."); return; }
+
+            let panel = document.getElementById("resultado");
+            if(panel.innerHTML.includes("Esperando transacciones")) panel.innerHTML = "";
+
+            panel.innerHTML += `
+                <div class="ticket" style="background: #fffdf5; border-color: #ffc107;">
+                    <h3 style="margin: 0 0 5px 0; color: #b58105;">💳 COMPROBANTE DE PAGO ELECTRÓNICO (PSE)</h3>
+                    <p style="margin: 3px 0;"><strong>Usuario:</strong> ${nombre} | <strong>Placa:</strong> ${placa}</p>
+                    <p style="margin: 3px 0;"><strong>Espacio Asignado:</strong> Celda ${celda} (Bloqueada)</p>
+                    <p style="margin: 3px 0; color: green; font-weight: bold;">Monto recaudado: $5.000 COP [Aprobado Transacción]</p>
+                </div>
+            `;
+            document.getElementById("nombreReserva").value = "";
+            document.getElementById("placaReserva").value = "";
+        }
+    </script>
 </body>
 </html>
