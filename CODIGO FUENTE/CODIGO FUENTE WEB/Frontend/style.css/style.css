@@ -1,0 +1,36 @@
+/* Estilos generales sistema */
+
+body{
+
+    font-family: Arial;
+    margin: 40px;
+
+}
+
+/* Título principal */
+
+h1{
+
+    color: darkblue;
+
+}
+
+/* Campos formulario */
+
+input, select{
+
+    width: 250px;
+    padding: 10px;
+
+}
+
+/* Botón registro */
+
+button{
+
+    background-color: darkblue;
+    color: white;
+    padding: 10px;
+    border: none;
+
+}
