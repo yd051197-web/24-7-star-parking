@@ -3,93 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENA Star Parking - Operario Móvil</title>
+    <title>24/7 Star Parking - Operario de Patio</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; margin: 0; background: #111; color: white; padding: 15px; }
-        .app-container { max-width: 360px; margin: 20px auto; background: #222; border-radius: 25px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 2px solid #333; }
-        h1 { font-size: 22px; text-align: center; color: #ffc107; margin-bottom: 5px; }
-        .status-badge { background: #28a745; color: white; text-align: center; padding: 12px; border-radius: 10px; font-weight: bold; margin-bottom: 20px; font-size: 16px; }
-        input { width: 100%; padding: 12px; box-sizing: border-box; border-radius: 8px; border: none; font-size: 16px; background: #333; color: white; margin-bottom: 15px; }
-        button { width: 100%; padding: 12px; background: #ffc107; color: black; font-weight: bold; border-radius: 8px; border: none; font-size: 16px; cursor: pointer; }
-        .log-box { background: #000; height: 130px; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 11px; overflow-y: auto; color: #00ff00; border: 1px solid #333; margin-top: 15px; }
+        :root {
+            --primary-color: #2563eb;
+            --success-color: #16a34a;
+            --danger-color: #dc2626;
+            --background: #f8fafc;
+            --text-color: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container-movil {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header-app {
+            text-align: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-app h2 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .header-app p {
+            margin: 5px 0 0 0;
+            color: #64748b;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        select.input-control {
+            letter-spacing: normal;
+            text-align-last: center;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(22, 163, 74, 0.2);
+        }
+
+        .btn-submit:active {
+            background-color: #15803d;
+            transform: scale(0.98);
+        }
+
+        .footer-status {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <h1>📱 Star Parking Mobile</h1>
-        <p style="text-align:center; font-size:12px; color:#aaa; margin-top:0;">Módulo Operario de Patio - Urrao</p>
-        
-        <div class="status-badge" id="monitorMovil">Celdas Libres: 20</div>
-
-        <div style="margin-top: 10px;">
-            <label style="font-size: 12px; color: #aaa; display:block; margin-bottom:5px;">DIGITAR O ESCANEAR PLACA</label>
-            <input type="text" id="placaMovil" placeholder="Ej. ABC123">
-            <button onclick="registrarEntradaRemota()">Entrada Rápida Móvil ⚡</button>
+    <div class="container-movil">
+        <div class="header-app">
+            <h2>24/7 Star Parking</h2>
+            <p>📱 Módulo Operario de Patio</p>
         </div>
 
-        <div class="log-box" id="consolaMovil">> Canal de red local sincronizado con Taquilla...</div>
+        <div class="form-group">
+            <label for="placaIngreso">PLACA DEL VEHÍCULO</label>
+            <input type="text" id="placaIngreso" class="input-control" maxlength="6" placeholder="EJ: KJU852" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="tipoVehiculo">TIPO DE VEHÍCULO</label>
+            <select id="tipoVehiculo" class="input-control">
+                <option value="Moto">🏍️ MOTO</option>
+                <option value="Carro">🚗 CARRO</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="registrarEntradaMovil()">
+            📥 REGISTRAR ENTRADA
+        </button>
+
+        <div class="footer-status">
+            Conexión local directa mediante LocalStorage Bus • Activo
+        </div>
     </div>
 
     <script>
-        const CAPACIDAD_MAXIMA = 20;
+        // Capacidad máxima mapeada con la Taquilla Central
+        const TOTAL_CUPOS_MOVIL = 20;
 
-        function obtenerDatos() {
-            return JSON.parse(localStorage.getItem('parqueadero_db')) || [];
-        }
+        // Recuperar la base de datos local o inicializarla si no existe
+        let dbVehiculos = JSON.parse(localStorage.getItem('parqueadero_db')) || [];
 
-        function guardarDatos(data) {
-            localStorage.setItem('parqueadero_db', JSON.stringify(data));
-            actualizarVistaM();
-        }
+        function registrarEntradaMovil() {
+            // Capturar el valor, limpiar espacios en blanco y convertir a mayúsculas estrictas
+            const placaInput = document.getElementById('placaIngreso').value.trim().toUpperCase();
+            const tipoVehiculo = document.getElementById('tipoVehiculo').value;
 
-        function actualizarVistaM() {
-            let db = obtenerDatos();
-            let libres = CAPACIDAD_MAXIMA - db.length;
-            document.getElementById("monitorMovil").innerText = "Celdas Libres: " + libres;
-            
-            if(libres <= 0) {
-                document.getElementById("monitorMovil").style.backgroundColor = "#d9534f";
-            } else {
-                document.getElementById("monitorMovil").style.backgroundColor = "#28a745";
+            // CASO CP-02: Control de datos nulos o vacíos
+            if (!placaInput) {
+                alert("🚨 MÓVIL: ¡La placa es obligatoria para registrar el ingreso!");
+                return;
             }
+
+            // CASO CP-03: Validación perimetral por longitud (Caja Negra)
+            if (placaInput.length > 6) {
+                alert("🚨 MÓVIL: Formato de placa inválido (Máximo 6 caracteres).");
+                return;
+            }
+
+            // CASO CP-04: Validación por expresiones regulares para evitar caracteres especiales corruptos
+            const regexAlfaNumerico = /^[A-Z0-7]+$/; 
+            if (!regexAlfaNumerico.test(placaInput)) {
+                alert("🚨 MÓVIL: La placa solo puede contener letras y números estándar. Símbolos prohibidos.");
+                return;
+            }
+
+            // Control adicional: Evitar ingresar una placa que ya se encuentra estacionada
+            if (dbVehiculos.some(v => v.placa === placaInput)) {
+                alert("⚠️ MÓVIL: Este vehículo ya se encuentra registrado dentro del parqueadero.");
+                return;
+            }
+
+            // CASO CP-07: Control de desbordamiento de aforo en patio
+            if (dbVehiculos.length >= TOTAL_CUPOS_MOVIL) {
+                alert("🛑 MÓVIL: Parqueadero saturado. No hay cupos disponibles en el sistema.");
+                return;
+            }
+
+            // Construcción del objeto de negocio estructurado
+            const nuevoVehiculo = {
+                placa: placaInput,
+                tipo: tipoVehiculo,
+                horaIngreso: new Date().getTime() // Marca de tiempo síncrona en milisegundos
+            };
+
+            // Inyección al array en memoria de la sesión
+            dbVehiculos.push(nuevoVehiculo);
+
+            // Persistencia inmediata en disco duro local (Esto dispara el evento para la taquilla web)
+            localStorage.setItem('parqueadero_db', JSON.stringify(dbVehiculos));
+            
+            // Confirmación de éxito al operario
+            alert(`📱 PATIO: Vehículo [${placaInput}] registrado y enviado con éxito a la Taquilla Central.`);
+            
+            // Restablecer el campo de texto para el próximo ingreso
+            document.getElementById('placaIngreso').value = "";
         }
 
-        function registrarEntradaRemota() {
-            let input = document.getElementById("placaMovil");
-            let placa = input.value.trim().toUpperCase();
-
-            if(!placa) return alert("Escriba una placa");
-            let db = obtenerDatos();
-            if(db.length >= CAPACIDAD_MAXIMA) return alert("Parqueadero lleno");
-
-            db.push({ placa: placa, tipo: "Automóvil", ingreso: new Date().getTime(), origen: "MÓVIL" });
-            guardarDatos(db);
-
-            document.getElementById("consolaMovil").innerHTML += `<br>> Transmisión exitosa Placa: ${placa}`;
-            input.value = "";
-        }
-
-        // ESCUCHA EN TIEMPO REAL SI LA WEB HACE ENTRADAS O SALIDAS
+        // CASO CP-06: Escuchador del Bus de Almacenamiento
+        // Si el cajero le da salida a un carro en index.html, la lista del móvil se actualiza sola en memoria
         window.addEventListener('storage', (e) => {
             if (e.key === 'parqueadero_db') {
-                actualizarVistaM();
-                let nuevoDb = JSON.parse(e.newValue) || [];
-                let viejoDb = JSON.parse(e.oldValue) || [];
-                
-                if(nuevoDb.length < viejoDb.length) {
-                    document.getElementById("consolaMovil").innerHTML += `<br>> [REDUCCIÓN] Celda liberada desde Taquilla.`;
-                } else if(nuevoDb.length > viejoDb.length) {
-                    let ult = nuevoDb[nuevoDb.length - 1];
-                    if(ult.origen === "WEB") {
-                        document.getElementById("consolaMovil").innerHTML += `<br>> [ALERTA] Entrada web de ${ult.placa} en taquilla.`;
-                    }
-                }
+                dbVehiculos = JSON.parse(e.newValue) || [];
             }
         });
-
-        // Cargar estado inicial
-        actualizarVistaM();
     </script>
 </body>
 </html>
